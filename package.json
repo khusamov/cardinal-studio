@@ -19,8 +19,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc:w": "tsc -w",
-    "test1": "nodemon -w dist dist/test/test1",
-    "start": "concurrently \"npm run tsc:w\" \"npm run test1\""
+    "nodemon": "nodemon -w dist dist/index.js",
+    "sencha:w": "cd client/studio && sencha app watch",
+    "start": "concurrently -n \"client,tsc,server\" -c \"magenta,blue,yellow\" -k \"npm run sencha:w\" \"npm run tsc:w\" \"npm run nodemon\""
   },
   "devDependencies": {
     "@types/express": "^4.0.35",
