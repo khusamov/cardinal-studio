@@ -1,8 +1,11 @@
 
-const Gulp = require('gulp');
-const ChildProcess = require('child_process');
 const Path = require('path');
+const ChildProcess = require('child_process');
+
+const Gulp = require('gulp');
+const GulpSequence = require('gulp-sequence');
 const ts = require('gulp-typescript');
+
 
 Gulp.task('sencha-app-build', function() {
 	return new Promise((resolve, reject) => {
@@ -34,4 +37,4 @@ Gulp.task('tsc', function() {
 });
 
 
-Gulp.task('default', ['tsc', 'sencha-app-build']);
+Gulp.task('default', GulpSequence('tsc', 'sencha-app-build'));
