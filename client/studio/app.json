@@ -5,6 +5,7 @@
     "framework": "ext",
     "toolkit": "classic",
     "theme": "theme-triton",
+    "locale": "ru",
 
     /**
      * The list of required packages (with optional versions; default is "latest").
@@ -16,6 +17,7 @@
      *      ]
      */
     "requires": [
+        "ext-locale",
         "font-awesome"
     ],
 
