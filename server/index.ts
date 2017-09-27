@@ -1,13 +1,12 @@
 
+import * as Path from 'path';
 import * as Express from 'express';
 import * as Cors from 'cors';
 
 const app = Express();
 app.use(Cors());
 
-app.get('/', (req, res) => {
-	res.send('куку');
-});
+app.use(Express.static(Path.join(__dirname, 'client')));
 
 
 app.get('/personnel', (req, res) => {
