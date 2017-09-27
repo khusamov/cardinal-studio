@@ -1,4 +1,4 @@
-# cardinal-studio
+# Cardinal RAD Studio
 
 Cardinal RAD Studio это среда быстрой (RAD) разработки
 веб-приложений на основе Node.js, PostgreSQL и Sencha ExtJS.
