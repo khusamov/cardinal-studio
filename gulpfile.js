@@ -16,7 +16,7 @@ Gulp.task('sencha-app-build', function() {
 		});
 		senchaAppBuild.on('error', reject);
 		senchaAppBuild.on('exit', code => {
-			console.log(`Сборка завершена с кодом '${code}'.`);
+			console.log(`Сборка завершена с кодом '${code}' (нуль означает успех).`);
 			resolve();
 		});
 	}).then(none => {
