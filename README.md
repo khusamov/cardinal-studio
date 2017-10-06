@@ -6,14 +6,13 @@ Node.js, PostgreSQL и Sencha ExtJS.
 Сборка
 ------------------------
 
-### Предварительные действия
+### Установка Node.js
 
-Для сборки приложения, следует установить:
-
-1. [Node.js версии 6.х.х][nodejs].
-2. [Sencha Cmd 6.5.2 for Windows 64-bit][senchacmd].
+Скачайте и установите [Node.js версии 6.х.х][nodejs].
 
 ### Установка Sencha Cmd
+
+Скачайте дистрибутив [Sencha Cmd 6.5.2 for Windows 64-bit][senchacmd].
 
 Sencha Cmd следует устанавливать так, чтобы в пути не было русских букв 
 (например пользователь Windows). 
@@ -48,6 +47,7 @@ Invoke-WebRequest https://github.com/khusamov/sencha-extjs/archive/6.2.0.zip -Ou
 Expand-Archive "sencha-extjs-6.2.0.zip" -DestinationPath "client";
 Rename-Item -Path "client/sencha-extjs-6.2.0" -NewName "ext";
 Remove-Item "sencha-extjs-6.2.0.zip";
+Echo "Готово! Фреймворк Sencha ExtJS 6.2.0 распакован в client/ext.";
 ```
 
 ### Запуск сборщика
@@ -131,4 +131,4 @@ node .
 [nodejs]: https://nodejs.org/
 [senchacmd]: https://www.sencha.com/products/extjs/cmd-download/
 [cardinalstudio]: https://github.com/khusamov/cardinal-studio/archive/master.zip
-[senchaextjs]: https://github.com/khusamov/sencha-extjs/releases
+[senchaextjs]: https://github.com/khusamov/sencha-extjs/releases/tag/6.2.0
