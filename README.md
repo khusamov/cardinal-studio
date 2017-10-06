@@ -99,7 +99,10 @@ node .
 
 1. Установить `Node.js`.
 2. Скопировать содержимое директории `dist` в директорию `C:\Program Files\Cardinal Studio`.
-3. Создать ярлык `Cardinal Studio` в меню Пуск со следующими атрибутами:  
+3. Запустить команду `cd C:\Program Files\Cardinal Studio && npm install` 
+   или `npm install`, а рабочую директорию установить как `C:\Program Files\Cardinal Studio`. 
+   Дождаться ее выполнения.
+4. Создать ярлык `Cardinal Studio` в меню Пуск со следующими атрибутами:  
    Объект `node C:\Program Files\Cardinal Studio`,  
    Рабочая папка `C:\Users\<username>\AppData\Local\Cardinal Studio`.  
 
