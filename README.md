@@ -18,25 +18,39 @@ Node.js, PostgreSQL и Sencha ExtJS.
 Sencha Cmd следует устанавливать так, чтобы в пути не было русских букв 
 (например пользователь Windows). 
 
-Также в `C:\Program Files` нельзя ставить Sencha Cmd, так как потом возникают странные проблемы,
+Устанавливать Sencha Cmd в `C:\Program Files` нельзя, так как потом возникают странные проблемы,
 связанные с тем, что у папки `C:\Program Files` административные права доступа.
 
 При установке путь установки `C:\Users\<username>\bin\Sencha\Cmd\6.5.2.15` 
 следует поменять на `C:\SenchaCmd\6.5.2.15`. Это следует сделать в том случае, 
 если у вас `<username>` содержит русские буквы.
 
-После установки пропишите в `PATH` путь к Sencha Cmd: `C:\SenchaCmd`.
+После установки пропишите в `PATH` путь к Sencha Cmd: `C:\SenchaCmd` 
+или `C:\Users\<username>\bin\Sencha\Cmd` (в зависимости от того, куда установили).
 
-### Скачивание репозитория и фреймворка
+### Скачивание репозитория
 
 Скачайте [архив данного репозитория][cardinalstudio] и распакуйте его 
 в любое место на вашем диске (но так, чтобы в пути не было русских букв).
 Например `C:\repositories\cardinal-studio` (далее по тексту используется этот путь).
 
+### Скачивание фреймворка Sencha ExtJS 6.2.0
+
 Скачайте [дистрибутив Sencha ExtJS 6.2.0][senchaextjs] и распакуйте его 
 в директорию `client/ext`.
 
-### Запуск сборки
+Это можно сделать командами в PowerShell (текущей директорией должна быть папка с репозиторием, 
+копируйте и вставляйте сразу все команды, скачанный архив будет распакован в нужное место
+и после этого удален с диска):
+
+```powershell
+Invoke-WebRequest https://github.com/khusamov/sencha-extjs/archive/6.2.0.zip -OutFile "sencha-extjs-6.2.0.zip";
+Expand-Archive "sencha-extjs-6.2.0.zip" -DestinationPath "client";
+Rename-Item -Path "client/sencha-extjs-6.2.0" -NewName "ext";
+Remove-Item "sencha-extjs-6.2.0.zip";
+```
+
+### Запуск сборщика
 
 Из директории репозитория `C:\repositories\cardinal-studio`
 выполните две команды (установить среду и запустить сборщик):
@@ -97,14 +111,14 @@ node .
 
 Инсталятор должен выполнить следующие действия:
 
-1. Установить `Node.js`.
+1. Установить `Node.js`. Желательно сделать тихую установку с параметрами по умолчанию.
 2. Скопировать содержимое директории `dist` в директорию `C:\Program Files\Cardinal Studio`.
 3. Запустить команду `cd C:\Program Files\Cardinal Studio && npm install` 
    или `npm install`, а рабочую директорию установить как `C:\Program Files\Cardinal Studio`. 
    Дождаться ее выполнения.
 4. Создать ярлык `Cardinal Studio` в меню Пуск со следующими атрибутами:  
    Объект `node C:\Program Files\Cardinal Studio`,  
-   Рабочая папка `C:\Users\<username>\AppData\Local\Cardinal Studio`.  
+   Рабочая директория `C:\Users\<username>\AppData\Local\Cardinal Studio`.  
 
 > Рабочая папка должна быть полностью вычисляемой кроме названия программы,
 например `<AppData>\Cardinal Studio`. Это должно быть сделано средствами сборщика инсталятора.
