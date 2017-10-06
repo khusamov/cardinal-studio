@@ -6,6 +6,9 @@ const Gulp = require('gulp');
 const GulpSequence = require('gulp-sequence');
 const ts = require('gulp-typescript');
 
+Gulp.task('copy-package-json', function() {
+	Gulp.src('package.json').pipe(Gulp.dest('dist'));
+});
 
 Gulp.task('sencha-app-build', function() {
 	return new Promise((resolve, reject) => {
@@ -16,8 +19,13 @@ Gulp.task('sencha-app-build', function() {
 		});
 		senchaAppBuild.on('error', reject);
 		senchaAppBuild.on('exit', code => {
-			console.log(`Сборка завершена с кодом '${code}' (нуль означает успех).`);
-			resolve();
+			if (new Number(code).valueOf() == 0) {
+				console.log(`Сборка успешно завершена.`);
+				resolve();
+			} else {
+				console.log(`Сборка завершена с кодом ошибки '${code}'.`);
+				reject(new Error(`Сборка завершена с кодом ошибки '${code}'.`));
+			}
 		});
 	}).then(none => {
 		return Gulp.src('client/build/production/Studio/**/*.*').pipe(Gulp.dest('dist/client'));
@@ -37,4 +45,4 @@ Gulp.task('tsc', function() {
 });
 
 
-Gulp.task('default', GulpSequence('tsc', 'sencha-app-build'));
+Gulp.task('default', GulpSequence('copy-package-json', 'tsc', 'sencha-app-build'));
