@@ -1,0 +1,16 @@
+﻿Инструкция по созданию дистрибутива
+
+0) Скачать и распаковать репозиторий в папку XXX, далее все пути заданы оносительно папки XXX.
+
+1) Скачать и установить Inno Script Studio 5.5.9 (u)
+http://www.jrsoftware.org/isdl.php
+Раздел QuickStart Pack
+Файл innosetup-qsp-5.5.9-unicode.exe
+
+2) Создать папку ...\XXX\download
+
+3) Скачать Node и перенести в ...\XXX\download\node-v6.11.4-x64.msi
+
+4) Запустить Inno Script Studio, открыть файл файл ...\XXX\inno_setup_cardinal.iss, нажать F9
+
+5) Проверить работоспособность: http://localhost:3000/
