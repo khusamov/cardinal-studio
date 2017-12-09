@@ -25,7 +25,7 @@ app.get('/personnel', (req, res) => {
 
 const port = 3000;
 
-app.listen(port, none => {
+app.listen(port, () => {
 	console.log(`Сервер Кардинал Студио слушает на порту '${port}'.`);
 	console.log(`Для просмотра результата работы программы зайдите на http://localhost:${port}`);
 });
