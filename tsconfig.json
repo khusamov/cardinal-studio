@@ -10,6 +10,11 @@
     "declaration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+
+    "moduleResolution": "node",
+    "lib": ["es6", "dom"],
+    "types": ["reflect-metadata"],
+
     "typeRoots": [
         "node_modules/@types"
     ],
