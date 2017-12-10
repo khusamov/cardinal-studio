@@ -1,31 +1,42 @@
 
 import * as Path from 'path';
-import * as Express from 'express';
-import * as Cors from 'cors';
+import * as Program from 'commander';
 
-const app = Express();
-app.use(Cors());
+import { Sequelize } from 'sequelize-typescript';
+import Server from './Server';
 
-app.use(Express.static(Path.join(__dirname, 'client')));
+Program
+	.option('--config-dir <path>', 'Директория с конфигурацией')
+	.parse(process.argv);
 
-
-app.get('/personnel', (req, res) => {
-	const data = [
-		{ name: 'Jean Luc', email: "jeanluc.picard@enterprise.com", phone: "555-111-1111" },
-		{ name: 'Worf',     email: "worf.moghsson@enterprise.com",  phone: "555-222-2222" },
-		{ name: 'Deanna',   email: "deanna.troi@enterprise.com",    phone: "555-333-3333" },
-		{ name: 'Data',     email: "mr.data@enterprise.com",        phone: "555-444-4444" }
-	];
-	res.json({
-		items: data
-	});
-})
+if (!Program.configDir) {
+	console.error('Не задана опция --config-dir.');
+	process.exit(1);
+}
 
 
 
-const port = 3000;
+// Директория с конфигурацией.
+const configDir = Path.isAbsolute(Program.configDir) ? Program.configDir : Path.join(process.cwd(), Program.configDir);
+console.log(`Директория с конфигурацией: ${configDir}`);
 
-app.listen(port, () => {
-	console.log(`Сервер Кардинал Студио слушает на порту '${port}'.`);
-	console.log(`Для просмотра результата работы программы зайдите на http://localhost:${port}`);
+
+
+const cardinalConfigDatabaseDir = Path.join(configDir, 'cardinal.sqlite');
+const sequelize = new Sequelize({
+    // logging: false,
+    database: '',
+    username: '',
+    password: '',
+    dialect: 'sqlite',
+    storage: cardinalConfigDatabaseDir,
+    modelPaths: [Path.join(__dirname, 'model')]
 });
+
+(async () => {
+    await sequelize.authenticate();
+    await sequelize.sync();
+    console.log(`База данных с настройками конфигурации подключена: "${cardinalConfigDatabaseDir}".`);
+	await new Server().start();
+})();
+

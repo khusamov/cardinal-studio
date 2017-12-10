@@ -1,25 +1,32 @@
-/**
- * This view is an example list of people.
- */
+
 Ext.define('Studio.view.main.List', {
     extend: 'Ext.grid.Panel',
     xtype: 'mainlist',
-
-    requires: [
-        'Studio.store.Personnel'
-    ],
+	requires: ['Studio.model.Personnel'],
 
     title: 'Personnel',
 
-    store: {
-        type: 'personnel'
-    },
+	bind: '{personnelStore}',
+
+	viewModel: {
+    	stores: {
+			personnelStore: {
+				model: 'Studio.model.Personnel',
+				autoLoad: true
+			}
+		}
+	},
 
     columns: [
         { text: 'Name',  dataIndex: 'name' },
         { text: 'Email', dataIndex: 'email', flex: 1 },
         { text: 'Phone', dataIndex: 'phone', flex: 1 }
     ],
+
+	bbar: {
+		xtype: 'pagingtoolbar',
+		displayInfo: true
+	},
 
     listeners: {
         select: 'onItemSelected'

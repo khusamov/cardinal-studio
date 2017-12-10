@@ -58,7 +58,8 @@ Ext.define('Studio.view.main.Main', {
     },
 
     defaults: {
-        bodyPadding: 20,
+        // bodyPadding: 20,
+		layout: 'fit',
         tabConfig: {
             plugins: 'responsive',
             responsiveConfig: {
