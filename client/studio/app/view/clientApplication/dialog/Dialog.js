@@ -10,7 +10,8 @@ Ext.define('Studio.view.clientApplication.dialog.Dialog', {
     	'Ext.form.Panel',
 		'Ext.form.field.Text',
         'Studio.view.clientApplication.dialog.DialogModel',
-		'Studio.view.clientApplication.dialog.DialogController'
+		'Studio.view.clientApplication.dialog.DialogController',
+		'Studio.view.clientApplication.dialog.Form'
     ],
 
 	config: {
@@ -23,6 +24,8 @@ Ext.define('Studio.view.clientApplication.dialog.Dialog', {
 
 	width: 400,
 	modal: true,
+	bodyPadding: 10,
+	resizable: false,
 
 	bind: {
 		title: '{title} клиентское приложение',
@@ -40,32 +43,8 @@ Ext.define('Studio.view.clientApplication.dialog.Dialog', {
 	}],
 
     items: [{
-		xtype: 'form',
-		reference: 'form',
-		publishes: ['valid', 'dirty'],
-		trackResetOnLoad: true,
-		listeners: {
-			render(form) {
-				this.publishState('dirty', this.isDirty());
-				this.publishState('valid', !this.hasInvalidField());
-			},
-			dirtychange(form, dirty) {
-				this.publishState('dirty', dirty);
-			},
-			validitychange(form, valid) {
-				this.publishState('valid', valid);
-			}
-		},
-		items: [{
-			fieldLabel: 'Название клиентского приложения',
-			xtype: 'textfield',
-			allowBlank: false,
-			name: 'name'
-		}, {
-			fieldLabel: 'Описание',
-			xtype: 'textareafield',
-			name: 'description'
-		}]
+		xtype: 'clientapplication-dialog-form',
+		reference: 'form'
 	}],
 
 	isDirty() {

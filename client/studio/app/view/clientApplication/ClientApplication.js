@@ -9,7 +9,8 @@ Ext.define('Studio.view.clientApplication.ClientApplication', {
     requires: [
     	'Ext.toolbar.Paging',
         'Studio.view.clientApplication.ClientApplicationModel',
-		'Studio.view.clientApplication.ClientApplicationController'
+		'Studio.view.clientApplication.ClientApplicationController',
+		'Studio.view.clientApplication.ActionBar'
     ],
 
 	title: 'Клиентские приложения',
@@ -17,31 +18,15 @@ Ext.define('Studio.view.clientApplication.ClientApplication', {
     	mode: 'multi'
 	},
 
-	bind: {
-		store: '{clientApplicationStore}',
-		selection: '{selection}'
-	},
+	bind: '{clientApplicationStore}',
 
 	listeners: {
 		containerclick: 'onContainerClick'
 	},
 
-	tbar: [{
-		text: 'Добавить',
-		handler: 'onAddButtonClick'
-	}, {
-		text: 'Изменить',
-		handler: 'onUpdateButtonClick',
-		bind: {
-			disabled: '{!selection}'
-		}
-	}, {
-    	text: 'Удалить',
-		handler: 'onDeleteButtonClick',
-		bind: {
-    		disabled: '{!selection}'
-		}
-	}],
+	tbar: {
+    	xtype: 'clientapplication-actionbar'
+	},
 
 	bbar: {
 		xtype: 'pagingtoolbar',

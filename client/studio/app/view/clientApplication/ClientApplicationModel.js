@@ -6,14 +6,15 @@ Ext.define('Studio.view.clientApplication.ClientApplicationModel', {
     alias: 'viewmodel.clientapplication',
 	requires: ['Studio.model.ClientApplication'],
 
+	data: {
+		selection: null
+	},
+
 	stores: {
 		clientApplicationStore: {
 			model: 'Studio.model.ClientApplication',
 			autoLoad: true
 		}
-	},
+	}
 
-    data: {
-		selection: null
-    }
 });

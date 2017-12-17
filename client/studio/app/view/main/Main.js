@@ -10,6 +10,8 @@ Ext.define('Studio.view.main.Main', {
     xtype: 'app-main',
 
     requires: [
+    	'Ext.tab.Panel',
+		'Ext.layout.container.HBox',
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
 
@@ -87,9 +89,29 @@ Ext.define('Studio.view.main.Main', {
     }, {
         title: 'Клиенты',
         iconCls: 'fa-user',
+		layout: {
+        	type: 'hbox',
+			align: 'stretch'
+		},
 		items: [{
-			xtype: 'clientapplication'
-        }]
+			xtype: 'clientapplication',
+			flex: 1,
+			reference: 'clientApplicationGrid'
+        }, {
+			xtype: 'tabpanel',
+			split: true,
+			flex: 3,
+			disabled: true,
+			bind: {
+				title: 'Клиент "{clientApplicationGrid.selection.name}"',
+				disabled: '{!clientApplicationGrid.selection}'
+			},
+			items: [{
+				title: 'index.html'
+			}, {
+				title: 'app.js'
+			}]
+		}]
     }, {
         title: 'Groups',
         iconCls: 'fa-users',

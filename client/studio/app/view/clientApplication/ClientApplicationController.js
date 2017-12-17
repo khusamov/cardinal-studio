@@ -1,11 +1,8 @@
-/**
- * Created by Святослав on 16.12.2017.
- */
+
 Ext.define('Studio.view.clientApplication.ClientApplicationController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.clientapplication',
 	requires: [
-		'Studio.model.ClientApplication',
 		'Studio.view.clientApplication.dialog.Dialog'
 	],
 
@@ -13,11 +10,21 @@ Ext.define('Studio.view.clientApplication.ClientApplicationController', {
 		grid.getSelectionModel().deselectAll();
 	},
 
-	onAddButtonClick() {
+	onInsertButtonClick() {
+    	const record = this.getStore('clientApplicationStore').getModel().create();
+		this.createDialog(record);
+	},
+
+	onUpdateButtonClick() {
+		const updated = this.getView().getSelection();
+		this.createDialog(updated[0]);
+	},
+
+	createDialog(record) {
 		Ext.create({
 			xtype: 'clientapplication-dialog',
 			autoShow: true,
-			record: this.getStore('clientApplicationStore').getModel().create(),
+			record,
 			listeners: {
 				submit: 'onClientApplicationDialogSubmit',
 				scope: this
@@ -26,44 +33,47 @@ Ext.define('Studio.view.clientApplication.ClientApplicationController', {
 	},
 
 	onClientApplicationDialogSubmit(dialog, clientApplication) {
-		if (clientApplication.phantom) {
-			this.insert(dialog, clientApplication);
-		} else if (dialog.isDirty()) {
-			this.update(dialog, clientApplication);
-		} else {
+		let action = clientApplication.phantom ? 'insert' : 'update';
+		Ext.Msg.wait(
+			`Данные ${{insert: 'добавляются', update: 'обновляются'}[action]}! Подождите...`,
+			{insert: 'Добавление', update: 'Обновление'}[action]
+		);
+		(dialog.isDirty() ? this[action](clientApplication) : Ext.Promise.resolve()).then(() => {
+			Ext.Msg.hide();
 			dialog.close();
-		}
-	},
-
-	insert(dialog, clientApplication) {
-		const me = this;
-		Ext.Msg.wait("Данные добавляются! Подождите...", "Добавление");
-		clientApplication.save({
-			success(record) {
-				me.getStore('clientApplicationStore').add(clientApplication);
-				Ext.Msg.hide();
-				dialog.close();
-			},
-			failure(record, operation) {
-				Ext.Msg.hide();
-				Ext.Msg.alert("Ошибка", "Произошла ошибка при добавлении!");
-				console.error("Произошла ошибка при добавлении!", record, operation);
-			}
+		}).catch(err => {
+			Ext.Msg.hide();
+			Ext.Msg.alert('Ошибка', err.message);
+			console.error(err);
 		});
 	},
 
-	update(dialog, clientApplication) {
-		Ext.Msg.wait("Данные обновляются! Подождите...", "Обновление");
-		this.getStore('clientApplicationStore').sync({
-			success() {
-				Ext.Msg.hide();
-				dialog.close();
-			},
-			failure(batch, options) {
-				Ext.Msg.hide();
-				Ext.Msg.alert("Ошибка", "Произошла ошибка при обновлении!");
-				console.error("Произошла ошибка при обновлении!", batch, options);
-			}
+	insert(clientApplication) {
+		return new Ext.Promise((resolve, reject) => {
+			clientApplication.save({
+				success: resolve,
+				failure(record, operation) {
+					const err = new Error('Произошла ошибка при добавлении!');
+					err.operation = operation;
+					reject(err);
+				}
+			});
+		}).then(clientApplication => {
+			this.getStore('clientApplicationStore').add(clientApplication);
+		});
+	},
+
+	update(clientApplication) {
+		return new Ext.Promise((resolve, reject) => {
+			this.getStore('clientApplicationStore').sync({
+				success: resolve,
+				failure(batch, options) {
+					const err = new Error('Произошла ошибка при обновлении!');
+					err.batch = batch;
+					err.options = options;
+					reject(err);
+				}
+			});
 		});
 	},
 
@@ -86,19 +96,6 @@ Ext.define('Studio.view.clientApplication.ClientApplicationController', {
 	delete(records) {
     	this.getStore('clientApplicationStore').remove(records);
 		this.getStore('clientApplicationStore').sync();
-	},
-
-	onUpdateButtonClick() {
-		const updated = this.getView().getSelection();
-		Ext.create({
-			xtype: 'clientapplication-dialog',
-			autoShow: true,
-			record: updated[0],
-			listeners: {
-				submit: 'onClientApplicationDialogSubmit',
-				scope: this
-			}
-		});
 	}
 
 });
