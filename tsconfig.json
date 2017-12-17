@@ -26,6 +26,8 @@
     "node_modules",
     "temp",
     "dist",
-    "client"
+    "client",
+    "server2",
+    "server1"
   ]
 }
