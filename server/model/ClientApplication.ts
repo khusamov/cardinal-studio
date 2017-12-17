@@ -1,10 +1,11 @@
 
-import { Model, Column, Table, BelongsToMany, Scopes, PrimaryKey, CreatedAt, UpdatedAt } from "sequelize-typescript";
+import { Model, DataType } from "sequelize-typescript";
+import { Column, Table, PrimaryKey, CreatedAt, UpdatedAt, AutoIncrement } from "sequelize-typescript";
 
 @Table
-export class ClientApplication extends Model<ClientApplication> {
+export default class ClientApplication extends Model<ClientApplication> {
 
-    @PrimaryKey @Column
+    @AutoIncrement @PrimaryKey @Column
     id: number;
 
     @CreatedAt @Column
@@ -15,5 +16,8 @@ export class ClientApplication extends Model<ClientApplication> {
 
     @Column
     name: string;
+
+    @Column(DataType.TEXT)
+	description: string;
 
 }

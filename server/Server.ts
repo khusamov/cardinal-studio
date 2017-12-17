@@ -6,6 +6,9 @@ import * as Express from "express";
 import * as Cors from 'cors';
 import * as BodyParser from 'body-parser';
 
+import GlobalErrorHandlerMiddleware from './middleware/GlobalErrorHandlerMiddleware';
+// import { GlobalErrorHandlerMiddleware } from 'ts-express-decorators';
+
 @ServerSettings({
 	rootDir: Path.resolve(__dirname),
 	port: 'localhost:3000',
@@ -24,6 +27,9 @@ export default class Server extends ServerLoader {
 		this.use(Cors());
 		this.use(Express.static(Path.join(__dirname, 'client')));
 		this.use(BodyParser.json());
+		this.use(BodyParser.urlencoded({
+			extended: true
+		}));
 	}
 
 	$onReady() {
@@ -33,6 +39,10 @@ export default class Server extends ServerLoader {
 
 	$onServerInitError(err) {
 		console.error(err);
+	}
+
+	$afterRoutesInit() {
+		this.use(GlobalErrorHandlerMiddleware);
 	}
 
 }
