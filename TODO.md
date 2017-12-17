@@ -1,6 +1,11 @@
 TODO
 =====
 
+Посмотреть ссылки
+
+https://www.npmjs.com/package/finale-rest
+https://www.npmjs.com/package/sequelize-hierarchy
+
 Цель:
 -----
 
