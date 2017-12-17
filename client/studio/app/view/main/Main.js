@@ -15,7 +15,8 @@ Ext.define('Studio.view.main.Main', {
 
         'Studio.view.main.MainController',
         'Studio.view.main.MainModel',
-        'Studio.view.main.List'
+        'Studio.view.main.List',
+		'Studio.view.clientApplication.ClientApplication'
     ],
 
     controller: 'main',
@@ -84,11 +85,11 @@ Ext.define('Studio.view.main.Main', {
             xtype: 'mainlist'
         }]
     }, {
-        title: 'Users',
+        title: 'Клиенты',
         iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
+		items: [{
+			xtype: 'clientapplication'
+        }]
     }, {
         title: 'Groups',
         iconCls: 'fa-users',
