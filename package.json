@@ -22,7 +22,8 @@
     "nodemon": "nodemon dist/index.js --config-dir temp",
     "sencha:w": "cd client/studio && sencha app watch",
     "start": "concurrently -n \"client,tsc,server\" -c \"magenta,blue,yellow\" -k \"npm run sencha:w\" \"npm run tsc:w\" \"npm run nodemon\"",
-    "start:server": "concurrently -n \"tsc,server\" -c \"blue,yellow\" -k \"npm run tsc:w\" \"npm run nodemon\""
+    "start:server": "concurrently -n \"tsc,server\" -c \"blue,yellow\" -k \"npm run tsc:w\" \"npm run nodemon\"",
+    "sencha:build": "gulp sencha-app-build"
   },
   "devDependencies": {
     "@types/express": "^4.0.35",

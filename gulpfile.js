@@ -10,7 +10,7 @@ Gulp.task('copy-package-json', function() {
 	Gulp.src('package.json').pipe(Gulp.dest('dist'));
 });
 
-Gulp.task('sencha-app-build', function() {
+Gulp.task('client:sencha-app-build', function() {
 	return new Promise((resolve, reject) => {
 		const appPath = Path.join(__dirname, 'client/studio');
 		console.log(`Сборка клиента: sencha app build ${appPath}`);
@@ -33,7 +33,7 @@ Gulp.task('sencha-app-build', function() {
 });
 
 
-Gulp.task('tsc', function() {
+Gulp.task('server:tsc', function() {
 	const tsConfigPath = 'tsconfig.json';
 	const tsConfig = require(`./${tsConfigPath}`);
 	const outDir = tsConfig.compilerOptions.outDir || 'dist';
@@ -45,4 +45,4 @@ Gulp.task('tsc', function() {
 });
 
 
-Gulp.task('default', GulpSequence('copy-package-json', 'tsc', 'sencha-app-build'));
+Gulp.task('default', GulpSequence('copy-package-json', 'server:tsc', 'client:sencha-app-build'));
