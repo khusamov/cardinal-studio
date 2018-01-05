@@ -1,30 +1,23 @@
 {
-    "name": "Studio",
-    "namespace": "Studio",
-    "version": "1.0.0.0",
-    "framework": "ext",
-    "toolkit": "classic",
-    "theme": "theme-triton",
-    "locale": "ru",
+  "name": "Studio",
+  "namespace": "Studio",
+  "version": "1.0.0.0",
+  "framework": "ext",
+  "toolkit": "classic",
+  "theme": "theme-triton",
+  "locale": "ru",
+  "overrides": [
+    "overrides/common",
+    "overrides/${build.environment}"
+  ],
+  "requires": [
+    "ext-locale",
+    "font-awesome"
+  ],
+  "indexHtmlPath": "index.html",
+  "id": "a6450569-9b0e-4aa9-932d-d847a611b4a8",
 
-    /**
-     * The list of required packages (with optional versions; default is "latest").
-     *
-     * For example,
-     *
-     *      "requires": [
-     *          "charts"
-     *      ]
-     */
-    "requires": [
-        "ext-locale",
-        "font-awesome"
-    ],
 
-    /**
-     * The relative path to the application's markup file (html, jsp, asp, etc.).
-     */
-    "indexHtmlPath": "index.html",
 
     /**
      * Comma-separated string with the paths of directories or files to search. Any classes
@@ -34,18 +27,6 @@
      */
     "classpath": [
         "app"
-    ],
-
-    /**
-     * Comma-separated string with the paths of directories or files to search. Any classes
-     * declared in these locations will be automatically required and included in the build.
-     * If any file defines an Ext JS override (using Ext.define with an "override" property),
-     * that override will in fact only be included in the build if the target class specified
-     * in the "override" property is also included.
-     */
-    "overrides": [
-        "overrides/common",
-        "overrides/${build.environment}"
     ],
 
     /**
@@ -493,11 +474,7 @@
      */
     "ignore": [
         "(^|/)CVS(/?$|/.*?$)"
-    ],
+    ]
 
-    /**
-     * Uniquely generated id for this application, used as prefix for localStorage keys.
-     * Normally you should never change this value.
-     */
-    "id": "a6450569-9b0e-4aa9-932d-d847a611b4a8"
+
 }
