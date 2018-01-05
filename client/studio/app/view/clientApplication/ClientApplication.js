@@ -18,7 +18,9 @@ Ext.define('Studio.view.clientApplication.ClientApplication', {
     	mode: 'multi'
 	},
 
-	bind: '{clientApplicationStore}',
+	bind: {
+    	store: '{clientApplicationStore}'
+	},
 
 	listeners: {
 		containerclick: 'onContainerClick'

@@ -1,128 +1,40 @@
-/**
- * This class is the main view for the application. It is specified in app.js as the
- * "mainView" property. That setting automatically applies the "viewport"
- * plugin causing this view to become the body element (i.e., the viewport).
- *
- * TODO - Replace this content of this view to suite the needs of your application.
- */
+
 Ext.define('Studio.view.main.Main', {
+
     extend: 'Ext.tab.Panel',
     xtype: 'app-main',
-
+	controller: 'main',
+	viewModel: 'main',
     requires: [
     	'Ext.tab.Panel',
-		'Ext.layout.container.HBox',
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
-
         'Studio.view.main.MainController',
         'Studio.view.main.MainModel',
-        'Studio.view.main.List',
-		'Studio.view.clientApplication.ClientApplication'
+		'Studio.view.clientappManager.ClientappManager'
     ],
 
-    controller: 'main',
-    viewModel: 'main',
-
-    ui: 'navigation',
-
-    tabBarHeaderPosition: 1,
-    titleRotation: 0,
-    tabRotation: 0,
-
-    header: {
-        layout: {
-            align: 'stretchmax'
-        },
-        title: {
-            bind: {
-                text: '{name}'
-            },
-            flex: 0
-        },
-        iconCls: 'fa-th-list'
-    },
-
-    tabBar: {
-        flex: 1,
-        layout: {
-            align: 'stretch',
-            overflowHandler: 'none'
-        }
-    },
-
-    responsiveConfig: {
-        tall: {
-            headerPosition: 'top'
-        },
-        wide: {
-            headerPosition: 'left'
-        }
-    },
-
-    defaults: {
-        // bodyPadding: 20,
-		layout: 'fit',
-        tabConfig: {
-            plugins: 'responsive',
-            responsiveConfig: {
-                wide: {
-                    iconAlign: 'left',
-                    textAlign: 'left'
-                },
-                tall: {
-                    iconAlign: 'top',
-                    textAlign: 'center',
-                    width: 120
-                }
-            }
-        }
-    },
+	bind: {
+    	title: '{name}'
+	},
 
     items: [{
-        title: 'Home',
-        iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
-        items: [{
-            xtype: 'mainlist'
-        }]
+    	title: 'Клиенты',
+		xtype: 'clientappmanager'
     }, {
-        title: 'Клиенты',
-        iconCls: 'fa-user',
-		layout: {
-        	type: 'hbox',
-			align: 'stretch'
-		},
-		items: [{
-			xtype: 'clientapplication',
-			flex: 1,
-			reference: 'clientApplicationGrid'
-        }, {
-			xtype: 'tabpanel',
-			split: true,
-			flex: 3,
-			disabled: true,
-			bind: {
-				title: 'Клиент "{clientApplicationGrid.selection.name}"',
-				disabled: '{!clientApplicationGrid.selection}'
-			},
-			items: [{
-				title: 'index.html'
-			}, {
-				title: 'app.js'
-			}]
-		}]
-    }, {
-        title: 'Groups',
-        iconCls: 'fa-users',
+        title: 'Сервера',
         bind: {
             html: '{loremIpsum}'
         }
-    }, {
-        title: 'Settings',
-        iconCls: 'fa-cog',
-        bind: {
-            html: '{loremIpsum}'
-        }
+	}, {
+		title: 'SQL-запросы',
+		bind: {
+			html: '{loremIpsum}'
+		}
+	}, {
+		title: 'Подключения к БД',
+		bind: {
+			html: '{loremIpsum}'
+		}
     }]
 });

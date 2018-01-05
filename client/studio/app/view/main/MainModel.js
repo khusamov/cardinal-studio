@@ -1,6 +1,4 @@
-/**
- * This class is the view model for the Main view of the application.
- */
+
 Ext.define('Studio.view.main.MainModel', {
     extend: 'Ext.app.ViewModel',
 
@@ -8,7 +6,6 @@ Ext.define('Studio.view.main.MainModel', {
 
     data: {
         name: 'Cardinal Studio',
-
         loremIpsum: `
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
             labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
@@ -18,5 +15,4 @@ Ext.define('Studio.view.main.MainModel', {
         `
     }
 
-    //TODO - add data, formulas and/or methods to support your view
 });
