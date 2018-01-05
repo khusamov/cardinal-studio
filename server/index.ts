@@ -1,42 +1,37 @@
 
 import * as Path from 'path';
-import * as Program from 'commander';
+import * as ReadPackage from 'read-pkg';
 
-import { Sequelize } from 'sequelize-typescript';
+import Cli from './Cli';
 import Server from './Server';
+import CardinalDatabase from './CardinalDatabase';
 
-Program
-	.option('--config-dir <path>', 'Директория с конфигурацией')
-	.parse(process.argv);
-
-if (!Program.configDir) {
-	console.error('Не задана опция --config-dir.');
-	process.exit(1);
-}
-
-
-
-// Директория с конфигурацией.
-const configDir = Path.isAbsolute(Program.configDir) ? Program.configDir : Path.join(process.cwd(), Program.configDir);
-console.log(`Директория с конфигурацией: ${configDir}`);
-
-
-
-const cardinalConfigDatabaseDir = Path.join(configDir, 'cardinal.sqlite');
-const sequelize = new Sequelize({
-    // logging: false,
-    database: '',
-    username: '',
-    password: '',
-    dialect: 'sqlite',
-    storage: cardinalConfigDatabaseDir,
-    modelPaths: [Path.join(__dirname, 'model')]
-});
 
 (async () => {
-    await sequelize.authenticate();
-    await sequelize.sync();
-    console.log(`База данных с настройками конфигурации подключена: "${cardinalConfigDatabaseDir}".`);
-	await new Server().start();
-})();
 
+	const pkg = await ReadPackage();
+	console.log([pkg.description, `Версия ${pkg.version}`].join('. '));
+
+	const cli = new Cli();
+	await cli.parse();
+
+	// Директория с конфигурацией Кардинала.
+	const configDir = Path.isAbsolute(cli.configDir) ? cli.configDir : Path.join(process.cwd(), cli.configDir);
+	console.log(`Директория с конфигурацией Кардинала: ${configDir}`);
+
+	// Подключение базы данных Кардинала из директории с конфигурацией.
+	// Если базы нет, то создается новая.
+	const cardinalDatabase = await new CardinalDatabase({
+		storage: Path.join(configDir, 'cardinal.sqlite'),
+		modelPaths: [Path.join(__dirname, 'model')]
+	});
+	await cardinalDatabase.start();
+	console.log(`База данных с конфигурацией Кардинала подключена: "${cardinalDatabase.config.storage}".`);
+
+	// Запуск сервера.
+	await new Server().start();
+
+})().catch(err => {
+	console.error(err);
+	process.exit(1);
+});
