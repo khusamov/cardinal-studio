@@ -44,7 +44,7 @@ Ext.define('Studio.view.clientApplication.ClientApplicationController', {
 		}).catch(err => {
 			Ext.Msg.hide();
 			Ext.Msg.alert('Ошибка', err.message);
-			console.error(err);
+			console.dir(err);
 		});
 	},
 
