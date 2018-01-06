@@ -1,5 +1,6 @@
 
 import * as Express from 'express';
+import { MultipartFile } from 'ts-express-decorators/multipartfiles';
 import { Next, Controller, Get, Post, Delete, Put, QueryParams, BodyParams, Required } from 'ts-express-decorators';
 import ClientApplication from '../model/ClientApplication';
 
@@ -59,6 +60,14 @@ export class ClientApplicationController {
 		const clientApplication = await ClientApplication.findById(id);
 		await clientApplication.destroy();
 		return {};
+	}
+
+	@Post('/upload')
+	async uploadFile(@MultipartFile() file: any) { // Express.Multer.File
+		console.log('------ MultipartFile -------')
+		console.log(file)
+		console.log('------ / MultipartFile -------')
+		return;
 	}
 
 }

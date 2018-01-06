@@ -29,7 +29,11 @@ import CardinalDatabase from './CardinalDatabase';
 	console.log(`База данных с конфигурацией Кардинала подключена: "${cardinalDatabase.config.storage}".`);
 
 	// Запуск сервера.
-	await new Server().start();
+	const uploadDir = Path.join(configDir, 'upload');
+	const server = new Server();
+	server.settings.uploadDir = uploadDir;
+	console.log(`Директория upload: ${uploadDir}`);
+	await server.start();
 
 })().catch(err => {
 	console.error(err);

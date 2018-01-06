@@ -1,6 +1,7 @@
 
 import * as Path from 'path';
 import { ServerLoader, ServerSettings } from 'ts-express-decorators';
+import 'ts-express-decorators/multipartfiles';
 
 import * as Express from "express";
 import * as Cors from 'cors';
@@ -19,7 +20,8 @@ import GlobalErrorHandlerMiddleware from './middleware/GlobalErrorHandlerMiddlew
 	// },
 	mount: {
 		'/': '${rootDir}/controller/**/*.js'
-	}
+	},
+	multer: {}
 })
 export default class Server extends ServerLoader {
 
