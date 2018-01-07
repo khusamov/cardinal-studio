@@ -19,7 +19,7 @@ export default class CardinalDatabase {
 			password: '',
 			dialect: 'sqlite',
 			storage: config.storage,
-			modelPaths: config.modelPaths
+			modelPaths: [Path.join(__dirname, 'model')]
 		});
 	}
 

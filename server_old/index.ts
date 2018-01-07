@@ -4,7 +4,6 @@ import * as ReadPackage from 'read-pkg';
 
 import Cli from './Cli';
 import Server from './Server';
-import Application from './Application';
 import CardinalDatabase from './CardinalDatabase';
 
 
@@ -23,23 +22,16 @@ import CardinalDatabase from './CardinalDatabase';
 	// Если базы нет, то создается новая.
 	const cardinalDatabase = await new CardinalDatabase({
 		storage: Path.join(configDir, 'cardinal.sqlite'),
-		modelPaths: [Path.join(__dirname, 'models')]
+		modelPaths: [Path.join(__dirname, 'model')]
 	});
 	await cardinalDatabase.start();
 	console.log(`База данных с конфигурацией Кардинала подключена: "${cardinalDatabase.config.storage}".`);
 
-	// Создание приложения.
-	const application = new Application({
-		clientPath: Path.join(__dirname, 'client')
-	});
-
 	// Запуск сервера.
 	const uploadDir = Path.join(configDir, 'upload');
+	const server = new Server();
+	server.settings.uploadDir = uploadDir;
 	console.log(`Директория upload: ${uploadDir}`);
-	const server = new Server({
-		cardinalDatabase,
-		application
-	});
 	await server.start();
 
 })().catch(err => {

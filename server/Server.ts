@@ -1,50 +1,57 @@
 
-import * as Path from 'path';
-import { ServerLoader, ServerSettings } from 'ts-express-decorators';
-import 'ts-express-decorators/multipartfiles';
+import * as Http from 'http';
 
-import * as Express from "express";
-import * as Cors from 'cors';
-import * as BodyParser from 'body-parser';
+import CardinalDatabase from './CardinalDatabase';
+import Application from "./Application";
 
-import GlobalErrorHandlerMiddleware from './middleware/GlobalErrorHandlerMiddleware';
-// import { GlobalErrorHandlerMiddleware } from 'ts-express-decorators';
+export interface IServerConfig {
+	cardinalDatabase: CardinalDatabase,
+	application: Application
+}
 
-@ServerSettings({
-	rootDir: Path.resolve(__dirname),
-	port: 'localhost:3000',
-	httpsPort: false,
-	// TODO Разобраться почему опция serveStatic не срабатывает как нужно.
-	// serveStatic: {
-	// 	'/': '${rootDir}/client'
-	// },
-	mount: {
-		'/': '${rootDir}/controller/**/*.js'
-	},
-	multer: {}
-})
-export default class Server extends ServerLoader {
+export default class Server {
 
-	$onMountingMiddlewares(): void | Promise<any> {
-		this.use(Cors());
-		this.use(Express.static(Path.join(__dirname, 'client')));
-		this.use(BodyParser.json());
-		this.use(BodyParser.urlencoded({
-			extended: true
-		}));
+	httpServer: Http.Server;
+
+	constructor(private config: IServerConfig) {
+
 	}
 
-	$onReady() {
-		const address = `http://${this.httpServer.address().address}:${this.httpServer.address().port}`;
-		console.log(`Сервер Кардинал Студио включен. Для просмотра результата работы программы зайдите на ${address}`);
+	async start(): Promise<string> {
+		this.httpServer = Http.createServer(this.config.application.expressApplication);
+		this.httpServer.listen(3000);
+		const bind = await new Promise<string>((resolve, reject) => {
+			this.httpServer.on('error', (error: NodeJS.ErrnoException) => {
+				if (error.syscall == 'listen') error = this.processServerError(error);
+				reject(error);
+			});
+			this.httpServer.on('listening', none => {
+				resolve(this.getBind());
+			});
+		});
+		return bind;
 	}
 
-	$onServerInitError(err) {
-		console.error(err);
+	protected processServerError(error) {
+		switch (error.code) {
+			case 'EACCES':
+				error = new Error(`Адрес ${this.getBind()} требует повышенных привилегий.`);
+				break;
+			case 'EADDRINUSE':
+				error = new Error(`Адрес ${this.getBind()} уже кем-то используется.`);
+				break;
+		}
+		return error;
 	}
 
-	$afterRoutesInit() {
-		this.use(GlobalErrorHandlerMiddleware);
+	protected getBind(): string {
+		const addr = this.httpServer.address();
+		if (!addr) return "<not address>";
+		if (typeof addr === "string") return `Pipe ${addr}`;
+		switch (addr.family) {
+			case "IPv6": return `[${addr.address}]:${addr.port}`;
+			case "IPv4": return `${addr.address}:${addr.port}`;
+		}
 	}
 
 }

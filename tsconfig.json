@@ -1,5 +1,4 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
@@ -28,6 +27,7 @@
     "dist",
     "client",
     "server2",
-    "server1"
+    "server1",
+    "server_old"
   ]
 }
