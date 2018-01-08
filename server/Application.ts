@@ -3,6 +3,8 @@ import * as Express from 'express';
 import * as Cors from 'cors';
 
 import ClientApplicationController from './controllers/ClientApplicationController';
+import NotFoundController from "./controllers/NotFoundController";
+import ErrorController from "./controllers/ErrorController";
 
 export interface IApplicationConfig {
 	clientPath: string;
@@ -24,6 +26,8 @@ export default class Application {
 	initControllers() {
 		const app = this.expressApplication;
 		new ClientApplicationController().init(app);
+		new NotFoundController().init(app);
+		new ErrorController().init(app);
 	}
 
 }

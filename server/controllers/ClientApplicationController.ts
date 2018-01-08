@@ -1,5 +1,6 @@
 
 import * as Express from 'express';
+import * as Multer from 'multer';
 import ClientApplicationModel from '../models/ClientApplication';
 
 export interface IClientApplicationGetResponse {
@@ -29,7 +30,8 @@ export default class ClientApplicationController {
 		app.delete('/ClientApplication', async (req: Express.Request, res: Express.Response) => {
 			res.send(await this.deleteOne(req, res));
 		});
-		app.post('/ClientApplication/uploadFile', async (req: Express.Request, res: Express.Response) => {
+		const upload = Multer();
+		app.post('/ClientApplication/upload', upload.single('index.html'), async (req: Express.Request, res: Express.Response) => {
 			res.send(await this.uploadFile(req, res));
 		});
 		return this;
@@ -70,6 +72,10 @@ export default class ClientApplicationController {
 	}
 
 	async uploadFile(req: Express.Request, res: Express.Response): Promise<IClientApplicationUploadFileResponse> {
+
+		console.log('- - - - - - - - - - - - -');
+		console.log(req.file);
+
 		return {};
 	}
 
